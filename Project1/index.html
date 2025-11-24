@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="output2.css">
+    <link rel="stylesheet" href="anim_made_code.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <title>Portfolio</title>
+    
+    <style>
+        /* PROFILE GLOW PULSE - MINIMUM RADIUS (KEPT AS IS) */
+        @keyframes appealing-pulse-glow {
+            0% {
+                box-shadow: 
+                    0 0 1px 0px rgba(0, 255, 255, 0.2); 
+            }
+            50% {
+                box-shadow: 
+                    0 0 5px 2px rgb(2, 231, 231),      /* Sharper Cyan Core */
+                    0 0 8px 3px rgba(255, 0, 255, 0.7),  /* Sharper Magenta Mid-Layer */
+                    0 0 12px 4px rgba(4, 255, 255, 0.3); /* Sharper Cyan Outer Halo */
+            }
+            100% {
+                box-shadow: 
+                    0 0 1px 0px rgba(0, 255, 255, 0.2); 
+            }
+        }
+
+        /* Apply the Animation and ensure default appearance */
+        .glowing-border {
+            animation: appealing-pulse-glow 3s infinite alternate ease-in-out; 
+            box-shadow: 0 0 1px 0px rgba(0, 255, 255, 0.2); 
+        }
+
+        /* Theme Variables */
+        :root{
+            --accent: #a855f7;
+            --accent-2: #c084fc;
+        }
+
+        /* 🛠️ NEW: Keyframes for Background Gradient Animation */
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* general */
+        /* ADDED: scroll-behavior: smooth; and dynamic background */
+        body{
+            color:#fff;
+            font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial; 
+            scroll-behavior: smooth;
+            /* Dark purple blend background */
+            background: linear-gradient(270deg, #000000, #150d1a, #000000); 
+            background-size: 600% 600%;
+            animation: gradient-shift 30s ease infinite; /* Slow, smooth cycle */
+        }
+        .typing::after{content:"|";animation:blink .8s infinite;}@keyframes blink{50%{opacity:0}}
+
+        /* nav underline */
+        .nav-underline{position:relative}
+        .nav-underline::after{content:'';position:absolute;bottom:-4px;left:50%;width:0;height:2px;background:var(--accent);transition:.25s;transform:translateX(-50%)}
+        .nav-underline:hover::after{width:100%}
+
+        /* Section Title Underline Style */
+        .section-title-underline {
+            position: relative;
+            display: inline-block; 
+        }
+        .section-title-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -8px; 
+            left: 0;
+            width: 100%;
+            height: 3px; 
+            background: var(--accent); 
+            transition: width 0.3s ease;
+        }
+
+        /* --- Orbit & glow system (responsive & smooth) --- */
+        .profile-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+        .glow-ring{position:absolute;inset:0;border-radius:9999px;pointer-events:none}
+
+        /* soft animated halo */
+        .halo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:420px;height:420px;border-radius:50%;filter:blur(28px);opacity:0.85;background:radial-gradient(circle at 30% 20%, rgba(192,132,252,0.22), transparent 18%),radial-gradient(circle at 70% 80%, rgba(168,85,247,0.18), transparent 25%);animation:haloPulse 4s ease-in-out infinite}
+        @keyframes haloPulse{0%{transform:translate(-50%,-50%) scale(0.98)}50%{transform:translate(-50%,-50%) scale(1.03)}100%{transform:translate(-50%,-50%) scale(0.98)}}
+
+        /* icon orbit base */
+        .orbit-container{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:420px;height:420px;border-radius:50%;pointer-events:none}
+        .orbit{position:absolute;left:50%;top:50%;transform-origin:50% 50%;width:100%;height:100%}
+        .orbiter{position:absolute;left:50%;top:50%;width:64px;height:64px;margin-left:-32px;margin-top:-200px;border-radius:9999px;display:flex;align-items:center;justify-content:center}
+        .orbiter img{width:100%;height:100%;border-radius:9999px;box-shadow:0 10px 30px rgba(168,85,247,0.22);filter:drop-shadow(0 10px 28px rgba(168,85,247,0.12));background:#fff}
+
+        /* three different orbit speeds and directions with staggered start angles */
+        @keyframes orbitCW{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        @keyframes orbitCCW{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+
+        .orbit.fast{animation:orbitCW 7s linear infinite}
+        .orbit.med{animation:orbitCCW 11s linear infinite}
+        .orbit.slow{animation:orbitCW 15s linear infinite}
+
+        /* small polish */
+        .orbit-shadow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:70%;height:70%;border-radius:50%;box-shadow:inset 0 40px 80px rgba(0,0,0,0.6);z-index:5}
+
+        /* Timeline styles for qualifications/experience */
+        .timeline-item {
+            border-left: 2px solid var(--accent);
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 2.5rem; /* Increased vertical space between timeline items */
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0.25rem;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid #000; /* Match background */
+            box-shadow: 0 0 0 4px #000; /* Outer ring effect */
+        }
+    </style>
+</head>
+<body class="bg-black text-white font-sans">
+
+<nav class="flex justify-between items-center px-6 md:px-20 py-4 bg-black/50 backdrop-blur fixed w-full top-0 z-50">
+    <h1 class="text-xl font-bold text-purple-400">Kunal Chopra</h1>
+    <ul class="hidden md:flex gap-8 text-gray-300 font-semibold">
+        <li><a class="nav-underline hover:text-purple-400" href="#home">Home</a></li>
+        <li><a class="nav-underline hover:text-purple-400" href="#about">About</a></li>
+        <li><a class="nav-underline hover:text-purple-400" href="#skills">Skills</a></li>
+        <li><a class="nav-underline hover:text-purple-400" href="#portfolio">Portfolio</a></li>
+        <li><a class="nav-underline hover:text-purple-400" href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<main id="home" class="flex flex-col-reverse md:flex-row gap-6 px-6 mr-3 justify-between md:px-20 pt-32 items-start md:items-center">
+    <div data-aos="fade-right" class="flex-1 max-w-xl md:order-1 order-2">
+        <p class="text-xl text-gray-400">  Hi, I'm</p>
+        <h2 class="text-5xl font-bold mt-2">Kunal Chopra</h2>
+        <h3 class="typing text-2xl mt-2 text-purple-400 font-semibold" id="role"></h3>
+        <p class="mt-4 text-gray-300">Hi! I'm Kunal Chopra. I build delightful front-end experiences using modern CSS and JavaScript. I like clean code, subtle motion and pixel-perfect UI.</p>
+    </div>
+
+    <div data-aos="fade-left" data-aos-delay="300" class="w-full md:w-[45vw] max-w-sm flex-0 relative flex justify-center items-center md:order-2 order-1">
+        <div class="profile-wrap" style="width:420px;height:420px">
+            <div class="halo"></div>
+
+            <img src="./PFP.jpg" 
+                class="
+                    size-50
+                    z-10
+                    border-2 border-amber-300
+                    rounded-[50%]
+                    shadow-xl shadow-black/70
+                    glowing-border
+                ">
+                
+            <div class="w-[400px] h-[400px] absolute bigrotation">
+                <img src="./html_logo.jpg" class="z-20 shadow-gray-500 shadow-md rounded-[50%] w-[60px] h-[60px] absolute left-[50%] translate-x-[-50%] origin-[30px_200px] rotate360">
+                <img src="./css_logo.png" class="bg-white shadow-gray-500 shadow-md z-10 w-[60px] h-[60px] rounded-[50%] absolute left-[50%] translate-x-[-50%] origin-[30px_200px] rotation120">
+                <img src="./tailwindcss logo.jpeg" class="z-0 shadow-gray-500 shadow-md w-[60px] h-[60px] rounded-[50%] absolute left-[50%] translate-x-[-50%] origin-[30px_200px] rotation240">
+            </div>
+        </div>
+    </div>
+</main>
+
+<section id="about" class="px-6 md:px-20 py-16"> 
+    
+    <hr class="border-purple-600 w-3/4 md:w-2/3 mx-auto my-20 opacity-50"/>
+    
+    <h2 data-aos="fade-right" class="section-title-underline text-4xl md:text-5xl font-bold mb-10 text-purple-400">
+        <i class="ri-graduation-cap-line text-3xl mr-2"></i> Educational Excellence
+    </h2>
+    
+    <div data-aos="fade-up" class="max-w-4xl grid md:grid-cols-2 gap-10 justify-between"> 
+
+        <div class="timeline-item">
+            <h3 class="text-2xl md:text-3xl font-semibold text-gray-100">B.Tech in Data Science</h3>
+            <p class="text-lg text-purple-300 mt-1 mb-2">National Institute of Technology, Jalandhar (NITJ)</p>
+            <p class="text-xl text-gray-300">Pursuing B.Tech, focusing on data structures, algorithms, and full-stack development.</p>
+        </div>
+        
+        <div class="timeline-item">
+            <h3 class="text-2xl md:text-3xl font-semibold text-gray-100">JEE Mains & Advanced</h3>
+            <p class="text-lg text-purple-300 mt-1 mb-2">Engineering Entrance Examination</p>
+            <ul class="list-disc list-inside text-lg text-gray-300 space-y-2"> 
+                <li>98.8 Percentile secured in JEE Mains.</li>
+                <li>Qualified for JEE Advanced.</li>
+                <li>Demonstrated strong aptitude in Physics, Chemistry, and Mathematics.</li>
+            </ul>
+        </div>
+
+        <div class="timeline-item">
+            <h3 class="text-2xl md:text-3xl font-semibold text-gray-100">Senior Secondary (Class 12th)</h3>
+            <p class="text-lg text-purple-300 mt-1 mb-2">CBSE</p>
+            <p class="text-4xl font-extrabold text-cyan-400">92.4%</p>
+            <p class="text-base text-gray-400 mt-1">Focus: PCM with Computer Science</p>
+        </div>
+        
+        <div class="timeline-item">
+            <h3 class="text-2xl md:text-3xl font-semibold text-gray-100">Secondary Education (Class 10th)</h3>
+            <p class="text-lg text-purple-300 mt-1 mb-2">ICSE</p>
+            <p class="text-4xl font-extrabold text-cyan-400">94.0%</p>
+            <p class="text-base text-gray-400 mt-1">Strong foundation in all core subjects.</p>
+        </div>
+    </div>
+</section>
+
+<section id="skills" class="px-6 md:px-20 py-16"> 
+    
+    <hr class="border-purple-600 w-3/4 md:w-2/3 mx-auto my-20 opacity-50"/>
+    
+    <h2 data-aos="fade-right" data-aos-delay="100" class="section-title-underline text-4xl md:text-5xl font-bold mb-6 text-purple-400">
+        <i class="ri-code-s-slash-line text-3xl mr-2"></i> Technical Skills
+    </h2>
+    
+    <div data-aos="fade-up" class="max-w-4xl space-y-10"> 
+        
+        <div>
+            <h3 class="text-2xl md:text-3xl font-semibold text-gray-100 mb-4">Proficient Core Technologies</h3>
+            <ul class="list-disc list-inside text-lg text-gray-300 space-y-3 pl-4"> 
+                <li>Languages: Python, Java, C++, HTML, CSS, Tailwind</li>
+                <li>Frameworks/Tools: Tailwind CSS (Expertise in modern utility-first development), Git & GitHub</li>
+            </ul>
+        </div>
+        
+        <div>
+            <h3 class="text-2xl md:text-3xl font-semibold text-gray-100 mb-4">Learning & Development Focus</h3>
+            <ul class="list-disc list-inside text-lg text-gray-300 space-y-3 pl-4"> 
+                <li>Core Concepts: Data Structures & Algorithms (DSA)</li>
+                <li>Backend Development: Exploring modern backend frameworks (e.g., Node.js/Express or Django)</li>
+                <li>Application Development: Fundamentals of App Development (e.g., Mobile/Cross-Platform tools)</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="portfolio" class=" md:px-20 py-4 "> 
+    
+    <hr class="border-purple-600 w-3/4 md:w-2/3 mx-auto my-20 opacity-50"/>
+
+    <h2 data-aos="fade-right" data-aos-delay="100" class="section-title-underline text-4xl md:text-5xl font-bold mb-10 text-purple-400">
+        <i class="ri-briefcase-line text-3xl mr-2"></i> Experience & Freelance Gigs
+    </h2>
+    
+    <div data-aos="fade-up" class="max-w-4xl space-y-10 justify-between">
+
+        <div class="timeline-item pb-5">
+            <h3 class="text-2xl md:text-3xl font-semibold text-gray-100">Freelancer</h3>
+            <p class="text-lg text-purple-300 mt-1 mb-2">2025 - Present | Remote</p>
+            <ul class="list-disc list-inside text-lg text-gray-300 space-y-2">
+                <li>Successfully delivered 3+ big gigs for small-to-mid-sized companies, focusing on responsive, high performance landing pages and interactive dashboards.</li>
+                <li>Specialized in converting Figma/Sketch designs into pixel-perfect, accessible code using React, Tailwind CSS, and Next.js.</li>
+                <li>Implemented custom animations and state management solutions to enhance user engagement.</li>
+            </ul>
+        </div>
+        
+        <div class="timeline-item ">
+            <h3 class="text-2xl md:text-3xl font-semibold text-gray-100">Open Source Contributor</h3>
+            <p class="text-lg text-purple-300 mt-1 mb-2">Ongoing</p>
+            <ul class="list-disc list-inside text-lg text-gray-300 space-y-2">
+                <li>Active contributor to CSS/UI-focused repositories, enhancing documentation and submitting quality of life improvements.</li>
+                <li>Committed to learning and implementing best practices from the wider developer community.</li>
+            </ul>
+        </div>
+        
+    </div>
+</section>
+
+<footer id="contact" class="px-6 md:px-20 py-10 text-center text-gray-500">
+    <p data-aos="fade-up" data-aos-duration="1000">&copy; 2025 Kunal Chopra. </p>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800, // Duration of animation (milliseconds)
+        once: true,      // Whether animation should only happen once - important for smooth feel
+    });
+
+    // Typing animation script
+    const roles=["Front-End Developer","Web Designer","UI/UX Enthusiast"];let idx=0,char=0,typing=true;const el=document.getElementById("role");
+    function type(){if(typing){if(char<roles[idx].length){el.textContent=roles[idx].slice(0,++char);setTimeout(type,80);}else{typing=false;setTimeout(type,1500);}}else{if(char>0){el.textContent=roles[idx].slice(0,--char);setTimeout(type,60);}else{typing=true;idx=(idx+1)%roles.length;setTimeout(type,300);}}}
+    type();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+@keyframes rotate120{
+    0%{
+        transform: rotate(0deg);
+    }
+    10%{
+        transform:rotate(120deg);
+    }
+    85%{
+        transform:rotate(120deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+.rotation120{
+    animation: rotate120 ease-in 10s 0.3s infinite;
+}
+
+@keyframes rotate240{
+    0%{
+        transform: rotate(0deg);
+    }
+    10%{
+        transform: rotate(120deg)
+    }
+    20%{
+        transform: rotate(240deg);
+    }
+    85%{
+        transform: rotate(240deg);
+    }
+    100%{
+        transform: rotate(360deg)
+    }
+}
+
+.rotation240{
+    animation: rotate240 10s ease-in 0.3s infinite;
+}
+
+@keyframes rotation360{
+    0%{
+        transform: rotate(0deg);
+    }
+    10%{
+        transform: rotate(120deg);
+    }
+    20%{
+        transform: rotate(240deg);
+    }
+    30%{
+        transform: rotate(360deg);
+    }
+    85%{
+        transform: rotate(360deg);
+    }
+    100%{
+        transform: rotate(720deg)
+    }
+}
+.rotate360{
+    animation: rotation360 10s ease-in 0.3s infinite;
+}
+
+@keyframes bigrotate {
+    0%{
+        transform: rotate(0deg);
+    }
+    30%{
+        transform: rotate(0deg);
+    }
+    85%{
+        transform: rotate(720deg);
+    }
+    100%{
+        transform: rotate(720deg);
+    }
+}
+
+.bigrotation{
+    animation: bigrotate 10s linear 0.3s infinite;
+}
