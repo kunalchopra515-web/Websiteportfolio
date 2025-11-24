@@ -313,11 +313,9 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     AOS.init({
-        duration: 800, // Duration of animation (milliseconds)
-        once: true,      // Whether animation should only happen once - important for smooth feel
+        duration: 800, 
+        once: true,  
     });
-
-    // Typing animation script
     const roles=["Front-End Developer","Web Designer","UI/UX Enthusiast"];let idx=0,char=0,typing=true;const el=document.getElementById("role");
     function type(){if(typing){if(char<roles[idx].length){el.textContent=roles[idx].slice(0,++char);setTimeout(type,80);}else{typing=false;setTimeout(type,1500);}}else{if(char>0){el.textContent=roles[idx].slice(0,--char);setTimeout(type,60);}else{typing=true;idx=(idx+1)%roles.length;setTimeout(type,300);}}}
     type();
